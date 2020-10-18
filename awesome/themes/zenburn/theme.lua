@@ -22,11 +22,31 @@ theme.fg_urgent  = "#CC9393"
 theme.bg_normal  = "#3F3F3F"
 theme.bg_focus   = "#1E2320"
 theme.bg_urgent  = "#3F3F3F"
-theme.taglist_bg_focus = "#5689E7"
+--theme.taglist_bg_focus = "#5689E7"
 --theme.tasklist_bg_focus = "#2b8a3e"
 theme.tasklist_bg_focus = "#087f5b"
 theme.bg_systray = theme.bg_normal
 -- }}}
+
+--theme.taglist_fg_focus    = "#5689E7"
+--theme.taglist_bg_focus = "#F8B572"
+--theme.taglist_fg_occupied = "#FF93A0"
+--"#164b5d"
+--theme.taglist_fg_urgent   = "#ED7572"
+--theme.taglist_fg_empty    = "#61ACB6"
+--"#828282"
+--Second variant)
+theme.taglist_fg_focus    = "#FF93A0"
+theme.taglist_bg_focus = "#5689E7"
+theme.taglist_fg_occupied = "#F8B572"
+--"#164b5d"
+theme.taglist_fg_urgent   = "#ED7572"
+theme.taglist_fg_empty    = "#61ACB6"
+--"#828282"
+
+
+theme.taglist_spacing     = 2
+theme.taglist_font = "awesomewm-font 11"
 
 -- {{{ Borders
 theme.useless_gap   = dpi(8)
@@ -42,6 +62,11 @@ theme.border_radius = dpi(6)
 -- {{{ Titlebars
 theme.titlebar_bg_focus  = "#3F3F3F"
 theme.titlebar_bg_normal = "#3F3F3F"
+
+theme.wibar_shape = rounded_rect
+theme.wibar_opacity = 1
+theme_notification_border_width = 10
+theme_notification_border_color ="#FF93A0"
 -- }}}
 
 -- There are other variable sets
