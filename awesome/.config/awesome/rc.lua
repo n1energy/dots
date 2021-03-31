@@ -19,7 +19,13 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local nice = require("nice")
 nice{
+titlebar_height = 30,
 button_size = 14,
+no_titlebar_maximized = true,
+titlebar_items = {
+    	left = {},
+	right = {"maximize","minimize","close"},
+}
 }
 --Enable separate keys config
 local keys = require("keys")
@@ -53,7 +59,6 @@ editor_cmd = terminal .. " -e " .. editor
 -- If you do not like this or do not have such a key,
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
-modkey = "Mod4"
 -- }}}
 
 -- {{{ Menu
