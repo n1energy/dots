@@ -17,6 +17,8 @@ local naughty = require("naughty")
 local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
+
+local revelation=require("revelation")
 local nice = require("nice")
 nice{
 titlebar_height = 30,
@@ -27,11 +29,7 @@ titlebar_items = {
 	right = {"maximize","minimize","close"},
 }
 }
---Enable separate keys config
-local keys = require("keys")
--- Enable hotkeys help widget for VIM and other apps
--- when client with a matching name is opened:
---require("awful.hotkeys_popup.keys")
+
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -51,7 +49,7 @@ end)
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/zenburn/theme.lua")
 -- This is used later as the default terminal and editor to run.
 terminal = "xterm"
-editor = os.getenv("EDITOR") or "nano"
+editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -60,7 +58,10 @@ editor_cmd = terminal .. " -e " .. editor
 -- I suggest you to remap Mod4 to another key using xmodmap or other tools.
 -- However, you can use another modifier like Mod1, but it may interact with others.
 -- }}}
-
+modkey = "Mod4"
+--Enable separate keys config
+require("keys")
+revelation.init()
 -- {{{ Menu
 -- Create a launcher widget and a main menu
 myawesomemenu = {

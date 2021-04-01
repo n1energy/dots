@@ -22,4 +22,7 @@ run setxkbmap -layout "us,ru" -option "grp:alt_shift_toggle"
 run redshift
 run volumeicon
 run clipit
-execute_script("document.evaluate
+run firefox
+run pcmanfm
+run kittty
+run variety

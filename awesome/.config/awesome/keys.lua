@@ -1,9 +1,9 @@
 local awful = require("awful")
+local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 --require("awful.hotkeys_popup.keys")
 
 -- {{{ Key bindings
-modkey = "Mod4"
 
 -- General Awesome keys
 awful.keyboard.append_global_keybindings({
@@ -13,7 +13,7 @@ awful.keyboard.append_global_keybindings({
               {description = "show main menu", group = "awesome"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
+    awful.key({ modkey, "Shift"   }, "Esc", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
     awful.key({ modkey }, "x",
               function ()
@@ -31,6 +31,7 @@ awful.keyboard.append_global_keybindings({
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
+    awful.key({ modkey,           }, "e",      revelation),
 })
 
 -- Tags related keybindings
@@ -198,7 +199,7 @@ client.connect_signal("request::default_keybindings", function()
                 c:raise()
             end,
             {description = "toggle fullscreen", group = "client"}),
-        awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+        awful.key({ modkey, "Shift"   }, "q",      function (c) c:kill()                         end,
                 {description = "close", group = "client"}),
         awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
                 {description = "toggle floating", group = "client"}),
