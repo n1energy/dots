@@ -2,6 +2,7 @@ local awful = require("awful")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 --require("awful.hotkeys_popup.keys")
+local revelation=require("awesome-revelation")
 
 -- {{{ Key bindings
 
@@ -31,7 +32,7 @@ awful.keyboard.append_global_keybindings({
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
-    awful.key({ modkey,           }, "e",      revelation),
+    awful.key({modkey}, "e", revelation)
 })
 
 -- Tags related keybindings
