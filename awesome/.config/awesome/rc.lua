@@ -18,7 +18,7 @@ local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 
-local revelation=require("revelation")
+local revelation=require("awesome-revelation")
 local nice = require("nice")
 nice{
 titlebar_height = 30,
