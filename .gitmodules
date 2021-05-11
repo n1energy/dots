@@ -4,3 +4,9 @@
 [submodule "awesome/.config/awesome/awesome-wm-nice"]
 	path = awesome/.config/awesome/awesome-wm-nice
 	url = https://github.com/mut-ex/awesome-wm-nice
+[submodule "awesome/.config/awesome/lain"]
+	path = awesome/.config/awesome/lain
+	url = https://github.com/lcpz/lain
+[submodule "awesome/.config/awesome/bling"]
+	path = awesome/.config/awesome/bling
+	url = https://github.com/BlingCorp/bling
