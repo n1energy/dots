@@ -24,5 +24,5 @@ run volumeicon
 run clipit
 run firefox
 run pcmanfm
-run kittty
+run kitty -1
 run variety
