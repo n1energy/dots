@@ -26,13 +26,19 @@ awful.keyboard.append_global_keybindings({
                   }
               end,
               {description = "lua execute prompt", group = "awesome"}),
+    awful.key({ modkey }, "v",
+          function ()
+              myscreen = awful.screen.focused()
+              myscreen.mywibox.visible = not myscreen.mywibox.visible
+          end,
+          {description = "toggle statusbar", group = "awesome"}
+),
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
-    awful.key({modkey}, "e", revelation)
 })
 
 -- Tags related keybindings
@@ -80,6 +86,8 @@ awful.keyboard.append_global_keybindings({
                   end
               end,
               {description = "restore minimized", group = "client"}),
+    awful.key({modkey}, "e", revelation,
+              {description = "clients overview", group = "client"}),
 })
 
 -- Layout related keybindings
@@ -235,6 +243,8 @@ client.connect_signal("request::default_keybindings", function()
                 c:raise()
             end ,
             {description = "(un)maximize horizontally", group = "client"}),
+    awful.key({ modkey,           }, "b", awful.titlebar.toggle,
+             {description = "toggle titlebar", group = "client"}),
     })
 end)
 

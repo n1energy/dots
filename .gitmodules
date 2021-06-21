@@ -10,3 +10,6 @@
 [submodule "awesome/.config/awesome/nice"]
 	path = awesome/.config/awesome/nice
 	url = https://github.com/mut-ex/awesome-wm-nice.git
+[submodule "awesome/.config/awesome/awesome-freedesktop"]
+	path = awesome/.config/awesome/awesome-freedesktop
+	url = https://github.com/lcpz/awesome-freedesktop

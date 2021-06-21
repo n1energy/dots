@@ -17,13 +17,13 @@ local naughty = require("naughty")
 local ruled = require("ruled")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
-
+local freedesktop = require("freedesktop")
 local revelation=require("awesome-revelation")
 local nice = require("nice")
 nice{
 titlebar_height = 30,
 button_size = 14,
-no_titlebar_maximized = true,
+--no_titlebar_maximized = true,
 titlebar_items = {
     	left = {},
 	right = {"maximize","minimize","close"},
@@ -72,11 +72,18 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end },
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
-                        })
-
+mymainmenu = freedesktop.menu.build({
+    before = {
+        { "Awesome", myawesomemenu, beautiful.awesome_icon },
+        -- other triads can be put here
+    },
+    after = {
+        { "Open terminal", terminal },
+        -- other triads can be put here
+    }
+})
+-- hide menu when mouse leaves it
+--mymainmenu.wibox:connect_signal("mouse::leave", function() mymainmenu:hide() end)
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
 
@@ -271,7 +278,7 @@ end)
 
 -- {{{ Titlebars
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
---client.connect_signal("request::titlebars", function(c)
+client.connect_signal("request::titlebars", function(c)
 --    -- buttons for the titlebar
 --    local buttons = {
 --        awful.button({ }, 1, function()
@@ -306,7 +313,8 @@ end)
 --        },
 --        layout = wibox.layout.align.horizontal
 --    }
---end)
+awful.titlebar.hide(c)
+end)
 
 -- {{{ Notifications
 
