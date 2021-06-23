@@ -95,8 +95,8 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Table of layouts to cover with awful.layout.inc, order matters.
 tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts({
-        awful.layout.suit.floating,
         awful.layout.suit.tile,
+        awful.layout.suit.floating,
         awful.layout.suit.tile.left,
         awful.layout.suit.tile.bottom,
         awful.layout.suit.tile.top,
@@ -210,7 +210,6 @@ screen.connect_signal("request::desktop_decoration", function(s)
     }
 end)
 -- }}}
-
 -- {{{ Mouse bindings
 awful.mouse.append_global_mousebindings({
     awful.button({ }, 3, function () mymainmenu:toggle() end),
@@ -313,8 +312,73 @@ client.connect_signal("request::titlebars", function(c)
 --        },
 --        layout = wibox.layout.align.horizontal
 --    }
-awful.titlebar.hide(c)
+--awful.titlebar.hide(c)
+end) 
+-- Titlebars only on floating windows
+--client.connect_signal("property::floating", function(c)
+--    if c.floating then
+--        awful.titlebar.show(c)
+--    else
+--        awful.titlebar.hide(c)
+--    end
+--end)
+client.connect_signal("property::floating", function(c)
+    local b = false;
+    if c.first_tag ~= nil then
+        b = c.first_tag.layout.name == "floating"
+    end
+    if c.floating or b then
+        awful.titlebar.show(c)
+    else
+        awful.titlebar.hide(c)
+    end
 end)
+
+function dynamic_title(c)
+    if c.floating or c.first_tag.layout.name == "floating" then
+        awful.titlebar.show(c)
+    else
+        awful.titlebar.hide(c)
+    end
+end
+
+tag.connect_signal("property::layout", function(t)
+    local clients = t:clients()
+    for k,c in pairs(clients) do
+        if c.floating or c.first_tag.layout.name == "floating" then
+            awful.titlebar.show(c)
+        else
+            awful.titlebar.hide(c)
+        end
+    end
+end)
+
+-- No borders if only one tiled client
+screen.connect_signal("arrange", function(s)
+    for _, c in pairs(s.clients) do
+        if #s.tiled_clients == 1 and c.floating == false then
+            c.border_width = 0
+        elseif #s.tiled_clients > 1 then
+            c.border_width = beautiful.border_width
+        end
+    end
+end)
+
+-- No borders when rearranging only 1 non-floating or maximized client
+--screen.connect_signal("arrange", function (s)
+--    local only_one = #s.tiled_clients == 1
+--    for _, c in pairs(s.clients) do
+--        if only_one and not c.floating or c.maximized then
+--            c.border_width = 0
+--        else
+--            c.border_width = beautiful.border_width
+--        end
+--    end
+--end)
+client.connect_signal("manage", dynamic_title)
+client.connect_signal("tagged", dynamic_title)
+client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 
 -- {{{ Notifications
 
