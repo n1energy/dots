@@ -379,7 +379,8 @@ client.connect_signal("manage", dynamic_title)
 client.connect_signal("tagged", dynamic_title)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-
+-- No gaps for single client
+beautiful.gap_single_client = false
 -- {{{ Notifications
 
 ruled.notification.connect_signal('request::rules', function()
