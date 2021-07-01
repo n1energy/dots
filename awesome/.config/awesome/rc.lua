@@ -313,9 +313,13 @@ client.connect_signal("request::titlebars", function(c)
 --        layout = wibox.layout.align.horizontal
 --    }
 --awful.titlebar.hide(c)
+end)
+--No titlebar for maximized
+client.connect_signal("property::maximized", function(c)
+awful.titlebar.hide(c) 
 end) 
 -- Titlebars only on floating windows
---client.connect_signal("property::floating", function(c)
+--client.connect_signal("property::maximized", function(c)
 --    if c.floating then
 --        awful.titlebar.show(c)
 --    else
