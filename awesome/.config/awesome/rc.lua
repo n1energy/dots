@@ -30,7 +30,7 @@ titlebar_items = {
 }
 }
 
-
+--awful_spawn("xsettingsd")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -119,6 +119,8 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
+local month_calendar = awful.widget.calendar_popup.month()
+month_calendar:attach( mytextclock, "tr" )
 
 screen.connect_signal("request::wallpaper", function(s)
     -- Wallpaper
@@ -195,6 +197,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
+            s.mylayoutbox,
             mylauncher,
             s.mytaglist,
             s.mypromptbox,
@@ -205,7 +208,7 @@ screen.connect_signal("request::desktop_decoration", function(s)
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
-            s.mylayoutbox,
+            --s.mylayoutbox,
         },
     }
 end)
@@ -314,10 +317,12 @@ client.connect_signal("request::titlebars", function(c)
 --    }
 --awful.titlebar.hide(c)
 end)
+
 --No titlebar for maximized
 client.connect_signal("property::maximized", function(c)
 awful.titlebar.hide(c) 
 end) 
+
 -- Titlebars only on floating windows
 --client.connect_signal("property::maximized", function(c)
 --    if c.floating then
@@ -369,22 +374,25 @@ screen.connect_signal("arrange", function(s)
 end)
 
 -- No borders when rearranging only 1 non-floating or maximized client
---screen.connect_signal("arrange", function (s)
---    local only_one = #s.tiled_clients == 1
---    for _, c in pairs(s.clients) do
---        if only_one and not c.floating or c.maximized then
---            c.border_width = 0
---        else
---            c.border_width = beautiful.border_width
---        end
---    end
---end)
+screen.connect_signal("arrange", function (s)
+    local only_one = #s.tiled_clients == 1
+    for _, c in pairs(s.clients) do
+        if only_one and not c.floating or c.maximized then
+            c.border_width = 0
+        else
+            c.border_width = beautiful.border_width
+        end
+    end
+end)
+
 client.connect_signal("manage", dynamic_title)
 client.connect_signal("tagged", dynamic_title)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+
 -- No gaps for single client
 beautiful.gap_single_client = false
+
 -- {{{ Notifications
 
 ruled.notification.connect_signal('request::rules', function()
