@@ -22,6 +22,8 @@ let g:deoplete#enable_at_startup = 1
 let NERDTreeShowHidden=1
 " Start NERDTree. If a file is specified, move the cursor to its window.
 let NERDTreeWinPos = "left"
+map <silent> <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeWinSize=20
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * NERDTree | if argc() > 0 || exists("s:std_in") | wincmd p | endif
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
