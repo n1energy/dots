@@ -20,15 +20,17 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 local freedesktop = require("freedesktop")
 local revelation=require("awesome-revelation")
 local nice = require("nice")
+--nice configuration
 nice{
 titlebar_height = 30,
 button_size = 14,
---no_titlebar_maximized = true,
+no_titlebar_maximized = true,
 titlebar_items = {
     	left = {},
 	right = {"maximize","minimize","close"},
 }
 }
+require('awesome-glorious-widgets.hot-corners')
 --awful_spawn("xsettingsd")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -45,9 +47,11 @@ end)
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 --beautiful.init(gears.filesystem.get_themes_dir() .. "zenburn/theme.lua")
-beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/zenburn/theme.lua")
+beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/myzen/theme.lua")
+local bling = require("bling")
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
+locker = "i3lock"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -103,6 +107,8 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Table of layouts to cover with awful.layout.inc, order matters.
 tag.connect_signal("request::default_layouts", function()
     awful.layout.append_default_layouts({
+        bling.layout.mstab,
+        bling.layout.centered,
         awful.layout.suit.tile,
         awful.layout.suit.floating,
         awful.layout.suit.tile.left,
@@ -116,6 +122,10 @@ tag.connect_signal("request::default_layouts", function()
         awful.layout.suit.max.fullscreen,
         awful.layout.suit.magnifier,
         awful.layout.suit.corner.nw,
+        -- bling.layout.vertical,
+        -- bling.layout.horizontal,
+        bling.layout.equalarea,
+        bling.layout.deck,
     })
 end)
 -- }}}
@@ -165,6 +175,10 @@ screen.connect_signal("request::desktop_decoration", function(s)
     s.mytaglist = awful.widget.taglist {
         screen  = s,
         filter  = awful.widget.taglist.filter.all,
+        style    = {
+            --shape = gears.shape.rounded_rect,
+            shape = gears.shape.half_round_rect,
+        },
         buttons = {
             awful.button({ }, 1, function(t) t:view_only() end),
             awful.button({ modkey }, 1, function(t)
@@ -187,6 +201,9 @@ screen.connect_signal("request::desktop_decoration", function(s)
     s.mytasklist = awful.widget.tasklist {
         screen  = s,
         filter  = awful.widget.tasklist.filter.currenttags,
+        style    = {
+            shape = gears.shape.rounded_rect,
+        },
         buttons = {
             awful.button({ }, 1, function (c)
                 c:activate { context = "tasklist", action = "toggle_minimization" }
@@ -198,15 +215,22 @@ screen.connect_signal("request::desktop_decoration", function(s)
     }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({
+     position = "top",
+     screen = s,
+     style    = {
+            shape = gears.shape.rounded_rect,
+            --shape = gears.shape.half_round_rect,
+        },
+        })
 
     -- Add widgets to the wibox
     s.mywibox.widget = {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            s.mylayoutbox,
             mylauncher,
+            s.mylayoutbox,
             s.mytaglist,
             s.mypromptbox,
         },
@@ -278,17 +302,18 @@ ruled.client.connect_signal("request::rules", function()
     }
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- ruled.client.append_rule {
+    ruled.client.append_rule {
+    	rule = { class = "firefox" },
+        properties = { opacity = 1, maximized = true, floating = false }
     --     rule       = { class = "Firefox"     },
     --     properties = { screen = 1, tag = "2" }
-    -- }
+    }
 end)
-
 -- }}}
 
--- {{{ Titlebars
+--{{{ Titlebars
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
-client.connect_signal("request::titlebars", function(c)
+--client.connect_signal("request::titlebars", function(c)
 --    -- buttons for the titlebar
 --    local buttons = {
 --        awful.button({ }, 1, function()
@@ -315,16 +340,17 @@ client.connect_signal("request::titlebars", function(c)
 --        },
 --        { -- Right
 --            awful.titlebar.widget.floatingbutton (c),
---            awful.titlebar.widget.maximizedbutton(c),
 --            awful.titlebar.widget.stickybutton   (c),
 --            awful.titlebar.widget.ontopbutton    (c),
+--            awful.titlebar.widget.minimizebutton(c),
+--            awful.titlebar.widget.maximizedbutton(c),
 --            awful.titlebar.widget.closebutton    (c),
 --            layout = wibox.layout.fixed.horizontal()
 --        },
 --        layout = wibox.layout.align.horizontal
 --    }
 --awful.titlebar.hide(c)
-end)
+--end)
 
 --No titlebar for maximized
 client.connect_signal("property::maximized", function(c)
@@ -371,27 +397,27 @@ tag.connect_signal("property::layout", function(t)
 end)
 
 -- No borders if only one tiled client
-screen.connect_signal("arrange", function(s)
-    for _, c in pairs(s.clients) do
-        if #s.tiled_clients == 1 and c.floating == false then
-            c.border_width = 0
-        elseif #s.tiled_clients > 1 then
-            c.border_width = beautiful.border_width
-        end
-    end
-end)
+--screen.connect_signal("arrange", function(s)
+--    for _, c in pairs(s.clients) do
+--        if #s.tiled_clients == 1 and c.floating == false then
+ --           c.border_width = 0
+--        elseif #s.tiled_clients > 1 then
+--            c.border_width = beautiful.border_width
+--        end
+--    end
+--end)
 
 -- No borders when rearranging only 1 non-floating or maximized client
-screen.connect_signal("arrange", function (s)
-    local only_one = #s.tiled_clients == 1
-    for _, c in pairs(s.clients) do
-        if only_one and not c.floating or c.maximized then
-            c.border_width = 0
-        else
-            c.border_width = beautiful.border_width
-        end
-    end
-end)
+--screen.connect_signal("arrange", function (s)
+--    local only_one = #s.tiled_clients == 1
+--    for _, c in pairs(s.clients) do
+--        if only_one and not c.floating or c.maximized then
+--            c.border_width = 0
+--        else
+--            c.border_width = beautiful.border_width
+--        end
+--    end
+--end)
 
 client.connect_signal("manage", dynamic_title)
 client.connect_signal("tagged", dynamic_title)
@@ -427,3 +453,6 @@ end)
 
 --Autostart
 awful.spawn.with_shell("~/.config/awesome/autorun.sh")
+
+collectgarbage("setpause", 160)
+collectgarbage("setstepmul", 400)
