@@ -29,7 +29,6 @@ titlebar_items = {
 	right = {"maximize","minimize","close"},
 }
 }
-
 --awful_spawn("xsettingsd")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -48,7 +47,7 @@ end)
 --beautiful.init(gears.filesystem.get_themes_dir() .. "zenburn/theme.lua")
 beautiful.init(os.getenv("HOME") .. "/.config/awesome/themes/zenburn/theme.lua")
 -- This is used later as the default terminal and editor to run.
-terminal = "xterm"
+terminal = "kitty"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -61,6 +60,15 @@ editor_cmd = terminal .. " -e " .. editor
 modkey = "Mod4"
 --Enable separate keys config
 require("keys")
+
+--bling module load
+local bling = require("bling")
+--bling windows switcher
+bling.widget.window_switcher.enable {
+    type = "thumbnail",
+    }
+
+-- relevation module
 revelation.init()
 -- {{{ Menu
 -- Create a launcher widget and a main menu

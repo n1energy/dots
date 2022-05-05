@@ -49,7 +49,7 @@ awful.keyboard.append_global_keybindings({
               {description = "view previous", group = "tag"}),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
+    awful.key({ modkey,           }, "Tab", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 })
 
@@ -67,14 +67,19 @@ awful.keyboard.append_global_keybindings({
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "Tab",
+    awful.key({ "Mod1",           }, "Tab",
         function ()
-            awful.client.focus.history.previous()
-            if client.focus then
-                client.focus:raise()
-            end
+	      awesome.emit_signal("bling::window_switcher::turn_on")
         end,
-        {description = "go back", group = "client"}),
+	  {description = "Window Switcher", group = "bling"}),
+    --   awful.key({ modkey,           }, "Tab",
+    --     function ()
+--            awful.client.focus.history.previous()
+--            if client.focus then
+--                client.focus:raise()
+--            end
+        -- end,
+--        {description = "go back", group = "client"}),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
               {description = "focus the next screen", group = "screen"}),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
@@ -88,7 +93,7 @@ awful.keyboard.append_global_keybindings({
                   end
               end,
               {description = "restore minimized", group = "client"}),
-    awful.key({modkey}, "e", revelation,
+    awful.key({ modkey,}, "e", revelation,
               {description = "clients overview", group = "client"}),
 })
 
