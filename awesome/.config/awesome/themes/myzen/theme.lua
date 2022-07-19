@@ -1,15 +1,15 @@
 -------------------------------
---  "Zenburn" awesome theme  --
---    By Adrian C. (anrxc)   --
+--  "myZen" awesome theme  --
+--    By Me:) (n1energy)   --
 -------------------------------
-
-local themes_path = require("gears.filesystem").get_themes_dir()
+local theme_name = "myzen"
+local themes_path = os.getenv("HOME") .. "/.config/awesome/themes/"--.. theme_name
 local rnotification = require("ruled.notification")
 local dpi = require("beautiful.xresources").apply_dpi
 
 -- {{{ Main
 local theme = {}
-theme.wallpaper = themes_path .. "zenburn/zenburn-background.png"
+theme.wallpaper = themes_path .. "myzen/zenburn-background.png"
 -- }}}
 
 -- {{{ Styles
@@ -114,7 +114,7 @@ theme.taglist_squares_unsel = themes_path .. "zenburn/taglist/squarez.png"
 -- }}}
 
 -- {{{ Misc
-theme.awesome_icon           = themes_path .. "zenburn/awesome-icon.png"
+theme.awesome_icon           = themes_path .. "myzen/awesome-icon.png"
 theme.menu_submenu_icon      = themes_path .. "default/submenu.png"
 -- }}}
 
@@ -165,7 +165,21 @@ theme.titlebar_maximized_button_focus_inactive  = themes_path .. "zenburn/titleb
 theme.titlebar_maximized_button_normal_inactive = themes_path .. "zenburn/titlebar/maximized_normal_inactive.png"
 -- }}}
 -- }}}
-
+theme.tabbar_ontop  = true
+theme.tabbar_radius = 2                -- border radius of the tabbar
+theme.tabbar_style = "default"         -- style of the tabbar ("default", "boxes" or "modern")
+theme.tabbar_font = "Sans 11"          -- font of the tabbar
+theme.tabbar_size = 30                 -- size of the tabbar
+theme.tabbar_position = "top"          -- position of the tabbar
+-- theme.tabbar_bg_normal = "#000000"     -- background color of the focused client on the tabbar
+-- theme.tabbar_fg_normal = "#ffffff"     -- foreground color of the focused client on the tabbar
+-- theme.tabbar_bg_focus  = "#1A2026"     -- background color of unfocused clients on the tabbar
+-- theme.tabbar_fg_focus  = "#ff0000"     -- foreground color of unfocused clients on the tabbar
+theme.tabbar_bg_focus_inactive = nil   -- background color of the focused client on the tabbar when inactive
+theme.tabbar_fg_focus_inactive = nil   -- foreground color of the focused client on the tabbar when inactive
+theme.tabbar_bg_normal_inactive = nil  -- background color of unfocused clients on the tabbar when inactive
+theme.tabbar_fg_normal_inactive = nil  -- foreground color of unfocused clients on the tabbar when inactive
+theme.tabbar_disable = false           -- disable the tab bar entirely
 -- Set different colors for urgent notifications.
 rnotification.connect_signal('request::rules', function()
     rnotification.append_rule {
