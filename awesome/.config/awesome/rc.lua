@@ -30,7 +30,7 @@ titlebar_items = {
 	right = {"maximize","minimize","close"},
 }
 }
-require('awesome-glorious-widgets.hot-corners')
+require('modules.hot-corners')
 --awful_spawn("xsettingsd")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
